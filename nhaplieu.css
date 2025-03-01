@@ -1,0 +1,367 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #e1eaf7;
+    margin-top: 0%;
+    margin-left: 0%;
+    margin-right: 0%;
+}
+
+.layout {
+    display: grid;
+    grid-template-rows: 60px 60px auto 60px;
+    grid-template-columns: 1fr;
+    grid-template-areas: 'header' 'sidebar' 'main' 'footer';
+    height: 100vh;
+}
+@media (min-width: 480px) {
+    .layout {
+        display: grid;
+        grid-template-rows: 60px auto 60px;
+        grid-template-columns: 160px auto;
+        grid-template-areas: 'header header header' 'sidebar main main' 'footer footer footer';
+    }
+}
+header {
+    grid-area: header;
+    background: #334eac;
+}
+footer {
+    grid-area: footer;
+    background: #334eac;
+}
+aside {
+    grid-area: sidebar;
+    background: #7096D1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    justify-content: center;
+}
+
+.function-box {
+    width: 140px;  /* Kích thước cố định */
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 14px;
+    background-color: #7096D1;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: width 0.75s ease;
+    border-bottom: 1px solid white;
+}
+
+.function-box:hover {
+    background-color: #0e337b;
+    transform: scale(1.05);
+}
+
+.function-box:active {
+    background-color: #b0c8ff;
+    transform: scale(0.98);
+}
+.function-box:last-child {
+    border-bottom: none; /* Bỏ đường dưới mục cuối cùng */
+}
+
+main {
+    grid-area: main;
+    background: white;
+}
+
+.nav {
+    position: fixed;
+    width: 100%; 
+    top: 0;
+    min-height: 42px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #334eac;
+}
+
+.nav-list {
+    padding-left: 0%;
+    margin: 0 16px;
+}
+
+.nav-item {
+    color: #fff;
+    list-style: none;
+    margin: 0 8px;
+    display: inline-block;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 15px;
+    font-size: 13px;
+    background-color: #5068d8; /* Màu sáng hơn header một chút */
+    color: white;
+    border: 2px solid white; /* Viền cùng màu với header */
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #00DEB4; /* Màu tối hơn header khi hover */
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #1d2b6e; /* Màu tối hơn khi click */
+    transform: scale(0.98);
+}
+
+
+
+h1 {
+    color: #333;
+}
+
+h3 {
+    margin: 0px;
+}
+
+
+input[type="file"], input[type="text"], input[type="number"] {
+    margin: 10px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center; /* Căn giữa hai bảng */
+    align-items: start; /* Giữ hai bảng căn theo đỉnh */
+    gap: 20px; /* Khoảng cách giữa hai bảng */
+    margin-top: 20px;
+}
+
+.centered-container > div {
+    padding: 10px;
+    min-width: 300px;
+    flex: 1; /* Đảm bảo hai bảng có cùng kích thước */
+    text-align: center;
+}
+
+/* Căn chỉnh bảng */
+table {
+    width: 100%; /* Đảm bảo bảng mở rộng theo div */
+    margin: 20px 0; /* Căn lề dọc */
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px; /* Chỉnh padding để dễ nhìn */
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #D0E3FF;
+}
+
+th {
+    background-color: #6175d4;
+    color: white;
+}
+
+#manualInputSection {
+    flex-direction: column; /* Xếp các phần tử theo hàng dọc */
+    align-items: flex-start; /* Căn trái */
+}
+
+.inputInfor{
+    display: flex;
+    align-items: center;
+}
+
+.inputInfor > label {
+    min-width: 150px;
+    text-align: left;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px; 
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+.content div {
+    flex: 1;
+}
+.content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* Bo tròn góc ảnh */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+}
+
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Căn đều khoảng cách giữa các box */
+    gap: 20px; /* Khoảng cách giữa các box */
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.box {
+    flex: 1; /* Mỗi box chiếm diện tích bằng nhau */
+    padding: 15px;
+    border-radius: 10px; /* Bo góc mềm mại */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    text-align: justify;
+}
+
+.box ul {
+    padding-left: 20px;
+}
+
+.box p, .box li {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+.sidebar-logo {
+    width: 150px; /* Điều chỉnh kích thước logo */
+    height: auto; /* Giữ tỷ lệ gốc */
+    display: block; /* Giúp hình ảnh không bị ảnh hưởng bởi text-align */
+    margin: 0 auto 20px auto; /* Căn giữa logo và tạo khoảng cách với nội dung dưới */
+}
+
+
+/* 
+<!--NAV-->
+<div class="nav">
+    <ul class="nav-list">
+        <li class="nav-item"><button onclick="chuyenTrang('knapsack1.html')">KnapSack Problem 1 </button></li>
+        <li class="nav-item"><button onclick="chuyenTrang('knapsack2.html')">KnapSack Problem 2 </button></li>
+        <li class="nav-item"><button onclick="chuyenTrang('knapsack3.html')">KnapSack Problem 3 </button></li>
+    </ul>
+    <ul class="nav-list">
+        <li class="nav-item"><button onclick="solveGreedyKnapsack('unbounded')" id="knapsackButton">Greedy Algorithm</button></li>
+        <li class="nav-item"><button onclick="solveKnapsackBandB('unbounded')">Branch and Bound</button></li>
+        <li class="nav-item"><button onclick="solveKnapsackDP('unbounded')">Dynamic Programming</button></li>
+        <!-- <li class="nav-item"><button onclick="soSanhThuatToan('unbounded')">So Sanh</button></li> -->
+    </ul>
+</div>
+
+<h1>BÀI TOÁN CÁI BA LÔ 1</h1>
+<div style="display: flex;">
+    <div style="width: 50vw;">
+        <h3>Chọn phương thức nhập dữ liệu</h3>
+        <div>
+            <button onclick="toggleInputMethod('file')">Upload File</button>
+            <button onclick="toggleInputMethod('manual')">Nhập Thủ Công</button>
+        </div>
+
+        <!--Upload file-->
+        <div id="fileInputSection" style="display: none;"> 
+            <input type="file" id="fileInput" accept=".txt" onchange="handleFileUpload(event)" style="display: none;">
+        </div>
+
+        <!--Nhập thủ công-->
+        <div id="manualInputSection" style="display:none;">
+            <h3>Nhập Thủ Công</h3>
+            <div class="inputInfor">
+                <label>Trọng lượng Ba lô: </label>
+                <input type="number" id="baloInput" min="0" style="flex: 1">
+            </div>
+            <div class="inputInfor">
+                <label>Tên Đồ Vật: </label>
+                <input type="text" id="nameInput" min="0" style="flex: 1">
+            </div>
+            <div class="inputInfor">
+                <label>Trọng Lượng: </label>
+                <input type="number" id="weightInput" min="0" style="flex: 1">
+            </div>
+            <div class="inputInfor">
+                <label>Giá Trị: </label>
+                <input type="number" id="valueInput" min="0" style="flex: 1">
+            </div>
+            <button onclick="addItem()">Thêm</button>
+        </div>
+        
+        <h3>Trọng lượng ba lô: <span id="baloWeightDisplay">0</span></h3>
+
+        
+            <table id="dataTable" style="display: none; width: 80%;">
+                <thead>
+                    <tr>
+                        <th>Tên Đồ Vật</th>
+                        <th>Trọng Lượng</th>
+                        <th>Giá Trị</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        
+        <button onclick="sortByUnitPrice()">Sắp xếp theo đơn giá giảm dần</button>
+    </div>  
+    
+<!-- Bảng Greedy -->
+    <div id="resultTableGreedy" style="width: 50vw; display: none;">
+        <h2>KẾT QUẢ THUẬT TOÁN THAM ĂN</h2>
+        <table id="greedyResultTable">
+            <thead>
+                <tr>
+                    <th>Tên Đồ Vật</th>
+                    <th>Trọng Lượng</th>
+                    <th>Giá Trị</th>
+                    <th>Đơn Giá</th>
+                    <th>Phương Án</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p id="totalValueDisplayGreedy"></p>
+        <p id="remainingCapacityDisplayGreedy"></p>
+    </div>
+
+<!-- Bảng Branch and Bound -->
+    <div id="resultTableBandB" style="width: 50vw; display: none;">
+        <h2>KẾT QUẢ THUẬT TOÁN NHÁNH CẬN</h2>
+        <table id="bandBResultTable">
+            <thead>
+                 <tr>
+                    <th>Tên Đồ Vật</th>
+                    <th>Trọng Lượng</th>
+                    <th>Giá Trị</th>
+                    <th>Đơn Giá</th>
+                    <th>Phương Án</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p id="totalValueDisplayBandB"></p>
+        <p id="remainingCapacityDisplayBandB"></p>
+    </div>
+
+<!-- Bảng Dynamic Programming -->
+    <div id="resultTableDP" style="width: 50vw; display: none;">
+        <h2>KẾT QUẢ THUẬT TOÁN QUY HOẠCH ĐỘNG</h2>
+        <table id="dpResultTable">
+            <thead>
+                 <tr>
+                    <th>Tên Đồ Vật</th>
+                    <th>Trọng Lượng</th>
+                    <th>Giá Trị</th>
+                    <th>Đơn Giá</th>
+                    <th>Phương Án</th>
+                </tr>
+            </thead>
+                <tbody></tbody>
+        </table>
+        <p id="totalValueDisplayDP"></p>
+        <p id="remainingCapacityDisplayDP"></p>
+    </div>
+</div> */

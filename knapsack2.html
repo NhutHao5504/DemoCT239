@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cái Ba Lô 2</title>
+    <link rel="icon" type="image/png" href="./Picture/CTU_logo.png">
+    <link rel="stylesheet" href="nhaplieu.css">
+</head>
+<body>
+    <div class="layout">
+        <header>
+            <div class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack1.html')">BÀI TOÁN BALO 1 </button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack2.html')">BÀI TOÁN BALO 2 </button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack3.html')">BÀI TOÁN BALO 3 </button></li>
+                </ul>
+                <ul class="nav-list">
+                    <li class="nav-item"><button onclick="chuyenTrang('soSanhGiaiThuat.html')">SO SÁNH GIẢI THUẬT</button></li>
+                </ul>
+            </div>
+        </header>
+        <aside>
+            <div class="function-box" onclick="toggleInputMethod('file')">Upload File</div>
+            <div class="function-box" onclick="toggleInputMethod('manual')">Nhập Thủ Công</div>
+            <div class="function-box" onclick="sortByUnitPrice()">Sắp Xếp</div>
+            <div class="function-box" onclick="solveGreedyKnapsack('bounded')">Gready Algorithm</div>
+            <div class="function-box" onclick="solveKnapsackBandB('bounded')">Branch and Bound</div>
+            <div class="function-box" onclick="solveKnapsackDP('bounded')">Dynamic Programming</div>
+            <div class="function-box" onclick="saveResultsToFile()">Lưu Kết Quả</div>
+        </aside>
+        <main>
+            <!-- Tiêu đề -->
+            <h1>BÀI TOÁN CÁI BA LÔ 2</h1>
+
+            <!-- Upload file -->
+            <div id="fileInputSection" style="display: none;"> 
+                <input type="file" id="fileInput" accept=".txt" onchange="handleFileUpload(event)" style="display: none;">
+            </div>
+            <!-- Nhập thủ công -->
+            <div id="manualInputSection" style="display:none; width: 60%; margin: 20px auto;">
+                <div class="inputInfor">
+                    <label>Trọng lượng Ba lô: </label>
+                    <input type="number" id="baloInput" min="0" style="flex: 1">
+                </div>
+                <div class="inputInfor">
+                    <label>Tên Đồ Vật: </label>
+                    <input type="text" id="nameInput" min="0" style="flex: 1">
+                </div>
+                <div class="inputInfor">
+                    <label>Trọng Lượng: </label>
+                    <input type="number" id="weightInput" min="0" style="flex: 1">
+                </div>
+                <div class="inputInfor">
+                    <label>Giá Trị: </label>
+                    <input type="number" id="valueInput" min="0" style="flex: 1">
+                </div>
+                <div class="inputInfor">
+                    <label>Số Lượng: </label>
+                    <input type="number" id="quantityInput" min="0" style="flex: 1">
+                </div>
+                <button onclick="addItem()">Thêm</button>
+                <button onclick="hideManualInput()">Hoàn thành</button>
+            </div>
+
+            <div class="centered-container">
+                <!-- Hiển thị bảng dữ liệu -->
+                 <div>
+                    <h3>TRỌNG LƯỢNG BA LÔ: <span id="baloWeightDisplay">0</span></h3>
+                    <table id="dataTable" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Tên Đồ Vật</th>
+                                <th>Trọng Lượng</th>
+                                <th>Giá Trị</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                 </div>
+                
+                <!-- Hiển thị bảng kết quả -->
+                <!-- Bảng Greedy -->
+                <div id="resultTableGreedy" style="display: none;">
+                    <h3>KẾT QUẢ THUẬT TOÁN THAM ĂN</h3>
+                    <table id="greedyResultTable">
+                        <thead>
+                            <tr>
+                                <th>Tên Đồ Vật</th>
+                                <th>Trọng Lượng</th>
+                                <th>Giá Trị</th>
+                                <th>Đơn Giá</th>
+                                <th>Phương Án</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <p id="totalValueDisplayGreedy"></p>
+                    <p id="remainingCapacityDisplayGreedy"></p>
+                </div>
+
+                <!-- Bảng Branch and Bound -->
+                <div id="resultTableBandB" style="display: none;">
+                    <h3>KẾT QUẢ THUẬT TOÁN NHÁNH CẬN</h3>
+                    <table id="bandBResultTable">
+                        <thead>
+                            <tr>
+                                <th>Tên Đồ Vật</th>
+                                <th>Trọng Lượng</th>
+                                <th>Giá Trị</th>
+                                <th>Đơn Giá</th>
+                                <th>Phương Án</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <p id="totalValueDisplayBandB"></p>
+                    <p id="remainingCapacityDisplayBandB"></p>
+                </div>
+
+                <!-- Bảng Dynamic Programming -->
+                <div id="resultTableDP" style="display: none;">
+                    <h3>KẾT QUẢ THUẬT TOÁN QUY HOẠCH ĐỘNG</h3>
+                    <table id="dpResultTable">
+                        <thead>
+                            <tr>
+                                <th>Tên Đồ Vật</th>
+                                <th>Trọng Lượng</th>
+                                <th>Giá Trị</th>
+                                <th>Đơn Giá</th>
+                                <th>Phương Án</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <p id="totalValueDisplayDP"></p>
+                    <p id="remainingCapacityDisplayDP"></p>
+                </div>
+            </div>
+    </main>
+    <footer>
+        <button onclick="window.location.href='index.html'">Quay lại</button>
+    </footer>
+</div>
+
+<script src="BaloB&B.js"></script>
+<script src="BaloGreedy.js"></script>
+
+<script src="BaloDP.js"></script>
+<script src="Quicksort.js"></script>
+<script src="nhaplieu.js"></script>
+<script src="script.js"></script>
+<script src="soSanh.js"></script>
+<script src="LuuKQ.js"></script>
+</body>
+</html>

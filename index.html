@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ</title>
+    <link rel="icon" type="image/png" href="./Picture/CTU_logo.png">
+    <link rel="stylesheet" href="nhaplieu.css">
+</head>
+<body>
+    <div class="layout">
+        <header>
+            <div class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack1.html')">BÀI TOÁN BALO 1 </button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack2.html')">BÀI TOÁN BALO 2 </button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack3.html')">BÀI TOÁN BALO 3 </button></li>
+                </ul>
+                <ul class="nav-list">
+                    <li class="nav-item"><button onclick="chuyenTrang('soSanhGiaiThuat.html')">SO SÁNH GIẢI THUẬT</button></li>
+                </ul>
+            </div>
+        </header>
+        <aside style="background-color: #d0e3ff; align-self: flex-start;">
+            <img class="sidebar-logo" src="./Picture/CTU_logo.png" alt="LOGO">
+        </aside>
+        <main>
+            <div class="content">
+                <div>
+                    <h1>GIỚI THIỆU BÀI TOÁN CÁI BA LÔ</h1>
+                    <p style="text-align: justify; text-indent: 3em;"> 
+                        - Bài toán cái ba lô (Knapsack Problem) là một trong những bài toán tối ưu hóa kinh điển
+                        trong khoa học máy tính và toán học. Hãy tưởng tượng bạn có một chiếc ba lô với sức chứa
+                        giới hạn và một tập hợp các vật phẩm, mỗi vật có trọng lượng và giá trị riêng. Thách thức
+                        đặt ra là làm thế nào để chọn ra những vật phẩm phù hợp nhất để tối đa hóa tổng giá trị mà
+                        không làm quá tải chiếc ba lô.
+                    </p>
+                    
+                    <ul style="text-align: left;">
+                        <p style="margin-top: 0; margin-bottom: 5px;">
+                        -  Bài toán cái ba lô có nhiều biến thể khác nhau, bao gồm:
+                        </p>
+                        <li>Cái ba lô 1: Tất cả đồ vật đều có số lượng không hạn chế.</li>
+                        <li>Cái ba lô 2: Mỗi đồ vật i chỉ có một số lượng si.</li>
+                        <li>Cái ba lô 3: Mỗi đồ vật chỉ có 1 cái.</li>
+                    </ul>
+                    <ul style="text-align: left;">
+                        <p style="margin-top: 0; margin-bottom: 5px;">-  Chúng ta có thể giải bài toán cái ba lô được thực hiện trong đề tài này bằng 3 giải thuật dưới đây:</p>
+                        <li>Giải thuật tham ăn (Greedy Algorithm).</li>
+                        <li>Giải thuật nhánh cận (Brand and Bround).</li>
+                        <li>Giải thuật quy hoạch động (Dynamic Programing).</li>
+                    </ul>
+                </div>
+        
+                <div>
+                    <img src="./Picture/Trangchu.png" alt="Hinh anh cai ba lo">
+                </div>
+            </div>
+
+            <div class="container" style="text-align: justify;">
+                <div class="box" style="background-color:#d0e3ff">
+                <p><b>Giải thuật tham ăn (Greedy Algorithm)</b> là một phương pháp tìm lời giải bằng cách chọn lựa 
+                từng bước tối ưu cục bộ, với hy vọng rằng tập hợp các bước tối ưu cục bộ này sẽ dẫn đến một lời 
+                giải tối ưu toàn cục.</p>
+                <p style="margin-top: 0; margin-bottom: 5px;">Đặc điểm:</p>
+                <ul>
+                    <li>Chọn phương án tốt nhất tại mỗi bước mà không cần quan tâm đến tương lai.</li>
+                    <li>Đơn giản, hiệu quả, nhưng không phải lúc nào cũng cho lời giải tối ưu.</li>
+                </ul>
+                </div>
+                <div class="box" style="background-color:#a5c2ed">
+                <p><b>Giải thuật nhánh cận (Branch and Bound)</b> là một phương pháp tìm kiếm cây không gian trạng thái,
+                giúp tối ưu bài toán bằng cách loại bỏ những nhánh không cần thiết để giảm số lượng trạng
+                thái cần xét.</p>
+                <p style="margin-top: 0; margin-bottom: 5px;">Đặc điểm:</p>
+                <ul>
+                    <li>Branch (Nhánh): Chia bài toán thành nhiều bài toán con nhỏ hơn.</li>
+                    <li>Bound (Cận): Tính giới hạn trên hoặc dưới để loại bỏ các nhánh không 
+                        thể cho kết quả tốt hơn giải pháp hiện tại.</li>
+                </ul>
+                </div>
+                <div class="box" style="background-color: #d0e3ff">
+                <p><b>Giải thuật quy hoạch động (Dynamic Programming)</b> là một phương pháp giải bài toán bằng cách chia nhỏ bài toán 
+                lớn thành các bài toán con, giải từng bài toán con và lưu trữ kết quả để sử dụng lại.</p>
+                <p style="margin-top: 0; margin-bottom: 5px;">Đặc điểm:</p>
+                <ul>
+                    <li>Tính tối ưu con: Lời giải tối ưu của bài toán lớn phụ thuộc vào lời giải tối ưu của bài toán con.</li>
+                    <li>Lưu trữ kết quả (Memoization) để không tính toán lại nhiều lần.</li>
+                </ul>
+                </div>
+              </div> 
+        </main>
+        <footer></footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
