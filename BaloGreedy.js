@@ -1,53 +1,56 @@
-function solveGreedyKnapsack(type) {
-    const capacity = parseFloat(document.getElementById('baloWeightDisplay').textContent);
+function ThamAn(type) {
+    const TLbalo = parseFloat(document.getElementById('baloWeightDisplay').textContent);
     const tableRows = document.querySelectorAll('#dataTable tbody tr');
     let items = [];
+    let ItemsBanDau = [];
 
     // Lấy dữ liệu từ bảng
     tableRows.forEach(row => {
         const cells = row.querySelectorAll('td');
-        const name = cells[0].textContent;
-        const weight = parseFloat(cells[1].textContent);
-        const value = parseFloat(cells[2].textContent);
-        const unitPrice = value / weight; // Đơn giá = Giá trị / Trọng lượng
-        let maxQuantity = type === 'bounded' ? parseInt(cells[3].textContent) : (type === '01' ? 1 : Infinity);
-        items.push({ name, weight, value, unitPrice, maxQuantity });
+        const tenDoVat = cells[0].textContent;
+        const TLDoVat = parseFloat(cells[1].textContent);
+        const giaTri = parseFloat(cells[2].textContent);
+        const donGia = giaTri / TLDoVat;
+        let SLMax = type === 'bounded' ? parseInt(cells[3].textContent) : (type === '01' ? 1 : Infinity);
+        
+        let item = { tenDoVat, TLDoVat, giaTri, donGia, SLMax };
+        ItemsBanDau.push(item); // Lưu danh sách ban đầu
+        items.push({ tenDoVat, TLDoVat, giaTri, donGia, SLMax });
     });
 
     items = quickSort(items);
 //    console.log(items);
-    let remainingCapacity = capacity;
-    let totalValue = 0;
+    let TLConLai = TLbalo;
+    let TGT = 0;
     let selectedItems = [];
 
     // Lựa chọn đồ vật theo chiến lược tham lam
     for (let item of items) {
-        if (item.weight > remainingCapacity) continue; // TL > TLbalo => bỏ qua
+        if (item.TLDoVat > TLConLai) continue; // TL > TLbalo => bỏ qua
 
-        let quantity = Math.min(Math.floor(remainingCapacity / item.weight), item.maxQuantity); // SL chọn
+        let SL = Math.min(Math.floor(TLConLai / item.TLDoVat), item.SLMax); // SL chọn
 
-        // Lưu tt vật phẩm vào selectedItems
-        if (quantity > 0) {
+        // Lưu tt đồ vật vào selectedItems
+        if (SL > 0) {
             selectedItems.push({
-                name: item.name,
-                weight: item.weight,
-                value: item.value,
-                unitPrice: item.unitPrice.toFixed(2),
-                quantity: quantity
+                tenDoVat: item.tenDoVat,
+                TLDoVat: item.TLDoVat,
+                giaTri: item.giaTri,
+                donGia: item.donGia.toFixed(2),
+                SL: SL
             });
 
-            totalValue += quantity * item.value;
-            remainingCapacity -= quantity * item.weight;
+            TGT += SL * item.giaTri;
+            TLConLai -= SL * item.TLDoVat;
         }
 
         // Nếu là bài toán 0/1 thì dừng sớm nếu ba lô đầy
-        if (type === '01' && remainingCapacity <= 0) break;
-    }
-    
-    displayGreedyResult(items,selectedItems, totalValue, remainingCapacity);
+        if (type === '01' && TLConLai <= 0) break;
+    }   
+    displayGreedyResult(ItemsBanDau,selectedItems, TGT, TLConLai);
 }
-
-function displayGreedyResult(items, selectedItems, totalValue, remainingCapacity) {
+ 
+function displayGreedyResult(ItemsBanDau, selectedItems, TGT, TLConLai) {
     // Ẩn các bảng khác
     document.getElementById('resultTableBandB').style.display = 'none';
     document.getElementById('resultTableDP').style.display = 'none';
@@ -57,23 +60,23 @@ function displayGreedyResult(items, selectedItems, totalValue, remainingCapacity
     resultTableBody.innerHTML = '';
 
     // Thêm dữ liệu mới
-    items.forEach(item => {
-        let selectedItem = selectedItems.find(i => i.name === item.name);
-        let quantity = selectedItem ? selectedItem.quantity : 0;
+    ItemsBanDau.forEach(item => {
+        let selectedItem = selectedItems.find(i => i.tenDoVat === item.tenDoVat);
+        let SL = selectedItem ? selectedItem.SL : 0;
 
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.name}</td>  
-                         <td>${item.weight}</td>  
-                         <td>${item.value}</td>  
-                         <td>${item.unitPrice.toFixed(2)}</td>  
-                         <td>${quantity}</td>`;
+        row.innerHTML = `<td>${item.tenDoVat}</td>  
+                         <td>${item.TLDoVat}</td>  
+                         <td>${item.giaTri}</td>  
+                         <td>${item.donGia.toFixed(2)}</td>  
+                         <td>${SL}</td>`;
 
         resultTableBody.appendChild(row);
     });
 
     // Hiển thị thông tin
-    document.getElementById('totalValueDisplayGreedy').textContent = `Tổng giá trị tối ưu - Tham ăn: ${totalValue}`;
-    document.getElementById('remainingCapacityDisplayGreedy').textContent = `Trọng lượng còn lại của ba lô: ${remainingCapacity}`;
+    document.getElementById('totalValueDisplayGreedy').textContent = `Tổng giá trị tối ưu - Tham ăn: ${TGT}`;
+    document.getElementById('remainingCapacityDisplayGreedy').textContent = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
 
     // Hiển thị bảng Greedy
     document.getElementById('resultTableGreedy').style.display = 'block';

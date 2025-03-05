@@ -1,89 +1,93 @@
-function solveKnapsackBandB(type) {
-    const baloWeight = document.getElementById('baloWeightDisplay').textContent;
+function NhanhCan(type) {
+    const TLbalo = document.getElementById('baloWeightDisplay').textContent;
+    const tableRows = document.querySelectorAll('#dataTable tbody tr');
     let items = [];
+    let ItemsBanDau = [];
 
     // Lấy dữ liệu từ bảng
-    const rows = document.querySelectorAll('#dataTable tbody tr');
-    rows.forEach(row => {
-        const name = row.cells[0].textContent;
-        const weight = parseInt(row.cells[1].textContent);
-        const value = parseInt(row.cells[2].textContent);
-        const unitPrice = value / weight;
+    tableRows.forEach(row => {
+        const tenDoVat = row.cells[0].textContent;
+        const TLDoVat = parseInt(row.cells[1].textContent);
+        const GT = parseInt(row.cells[2].textContent);
+        const donGia = GT / TLDoVat;
         const limit = parseInt(row.cells[3].textContent) || Infinity;
 
-        items.push({ name, weight, value, unitPrice, limit });
+        let item = { tenDoVat, TLDoVat, GT, donGia, limit };
+        ItemsBanDau.push(item);
+        items.push({ tenDoVat, TLDoVat, GT, donGia, limit });
     });
 
-    items = quickSort(items); // Sắp xếp theo đơn giá giảm dần
+    items = quickSort(items);
 
-    function knapsackBranchBound(items, capacity) {
+    function BranchBound(items, TLbalo) {
         let GLNTT = 0;
         let bestCombination = {};
         let TGT = 0;
-        let V = capacity; // Trọng lượng còn lại
+        let V = TLbalo; // Trọng lượng còn lại
 
-        function initializeRootNode() {
+        function taoNutGoc() {
             TGT = 0;
-            V = capacity;
+            V = TLbalo;
             GLNTT = 0;
         }
 
-        function updateBestSolution(TGT, combination) {
+        function capNhatGLNTT(TGT, combination) {
             if (TGT > GLNTT) {
                 GLNTT = TGT;
                 bestCombination = { ...combination };
             }
         }
 
-        function branchAndBound(index, TGT, CT, V, combination) {
+        function BranchBound(index, TGT, CT, V, combination) {
+            //Điều kiện dừng
             if (V < 0) return;
-            if (TGT > GLNTT) updateBestSolution(TGT, combination);
+            if (TGT > GLNTT) capNhatGLNTT(TGT, combination);
             if (index >= items.length || V === 0) return;
 
             const currentItem = items[index];
             let limit = 0;
             if (type === "unbounded") {
-                limit = Math.floor(V / currentItem.weight); //Balo1
+                limit = Math.floor(V / currentItem.TLDoVat); //Balo1
             } else if (type === "bounded") {
-                limit = Math.min(currentItem.limit, Math.floor(V / currentItem.weight)); // Balo2
+                limit = Math.min(currentItem.limit, Math.floor(V / currentItem.TLDoVat)); // Balo2
             } else if (type === "01") {
-                limit = Math.min(1, Math.floor(V / currentItem.weight)); // Balo3
+                limit = Math.min(1, Math.floor(V / currentItem.TLDoVat)); // Balo3
             }
 
             for (let j = limit; j >= 0; j--) {
-                let newTGT = TGT + j * currentItem.value;
-                let newV = V - j * currentItem.weight;
-                let newCT = newTGT + (newV > 0 ? newV * (items[index + 1]?.unitPrice || 0) : 0);
+                let newTGT = TGT + j * currentItem.GT;
+                let newV = V - j * currentItem.TLDoVat;
+                let newCT = newTGT + (newV > 0 ? newV * (items[index + 1]?.donGia || 0) : 0);
 
                 if (newCT > GLNTT) {
-                    let newCombination = { ...combination };
-                    newCombination[currentItem.name] = j;
+                    let newCombination = { ...combination };    //Copy phương án cũ
+                    newCombination[currentItem.tenDoVat] = j;   //Cập nhật số lượng đồ vật
                     if (index === items.length - 1 || newV === 0) {
-                        updateBestSolution(newTGT, newCombination);
+                        capNhatGLNTT(newTGT, newCombination);
                     } else {
-                        branchAndBound(index + 1, newTGT, newCT, newV, newCombination);
+                        BranchBound(index + 1, newTGT, newCT, newV, newCombination);
                     }
                 }
             }
         }
 
-        initializeRootNode();
-        branchAndBound(0, TGT, 0, V, {});
+        taoNutGoc();
+        BranchBound(0, TGT, 0, V, {});
         return { maxValue: GLNTT, bestCombination };
     }
 
-    const result = knapsackBranchBound(items, baloWeight);
-    let usedWeight = 0;
+    const result = BranchBound(items, TLbalo);
+    let TLUsed = 0;
     for (const item of items) {
-        if (result.bestCombination[item.name]) {
-        usedWeight += result.bestCombination[item.name] * item.weight;
+        if (result.bestCombination[item.tenDoVat]) {
+            TLUsed += result.bestCombination[item.tenDoVat] * item.TLDoVat;
         }
     }
-    let remainingWeight = baloWeight - usedWeight;
-    displayBandBResult(result, items, baloWeight, remainingWeight);
+    let TLConLai = TLbalo - TLUsed;
+    displayBandBResult(result, ItemsBanDau, TLbalo, TLConLai);
 }
 
-function displayBandBResult(result, items, baloWeight, remainingWeight) {
+function displayBandBResult(result, ItemsBanDau, TLbalo, TLConLai) {
     // Ẩn các bảng khác
     document.getElementById('resultTableGreedy').style.display = 'none';
     document.getElementById('resultTableDP').style.display = 'none';
@@ -93,14 +97,14 @@ function displayBandBResult(result, items, baloWeight, remainingWeight) {
     resultTableBody.innerHTML = '';
 
     // Thêm dữ liệu mới
-    items.forEach(item => {
-        let quantity = result.bestCombination[item.name] || 0;
+    ItemsBanDau.forEach(item => {
+        let quantity = result.bestCombination[item.tenDoVat] || 0;
 
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.name}</td>  
-                         <td>${item.weight}</td>  
-                         <td>${item.value}</td>  
-                         <td>${item.unitPrice.toFixed(2)}</td>  
+        row.innerHTML = `<td>${item.tenDoVat}</td>  
+                         <td>${item.TLDoVat}</td>  
+                         <td>${item.GT}</td>  
+                         <td>${item.donGia.toFixed(2)}</td>  
                          <td>${quantity}</td>`;
 
         resultTableBody.appendChild(row);
@@ -108,8 +112,9 @@ function displayBandBResult(result, items, baloWeight, remainingWeight) {
 
     // Hiển thị thông tin
     document.getElementById('totalValueDisplayBandB').innerText = `Tổng giá trị tối ưu Nhánh Cận: ${result.maxValue}`;
-    document.getElementById('remainingCapacityDisplayBandB').innerText = `Trọng lượng còn lại của ba lô Nhánh Cận: ${remainingWeight}`;
+    document.getElementById('remainingCapacityDisplayBandB').innerText = `Trọng lượng còn lại của ba lô Nhánh Cận: ${TLConLai}`;
 
     // Hiển thị bảng BandB
     document.getElementById('resultTableBandB').style.display = 'block';
 }
+ 

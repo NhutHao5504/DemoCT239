@@ -1,5 +1,5 @@
 //Ẩn phần nhập dữ liệu giữa "file" và "manual":
-function toggleInputMethod(method) {
+function chuyenDoiNhapLieu(method) {
     if (method === 'file') {
         const fileInput = document.getElementById('fileInput');
         fileInput.click(); // Tự động mở cửa sổ chọn tệp
@@ -8,51 +8,12 @@ function toggleInputMethod(method) {
     document.getElementById('manualInputSection').style.display = method === 'manual' ? 'block' : 'none';
 }
 
-//Hàm xử lý đọc và upload file
-// function handleFileUpload(event) {
-//     const file = event.target.files[0];
-//     if (!file) return;
 
-//     const reader = new FileReader(); //Khởi tạo API đọc tệp
-//     //Xử lý tệp đã đọc xong:
-//     reader.onload = function(e) {
-//         const lines = e.target.result.split('\n').map(line => line.trim());
-//         const tbody = document.querySelector('#dataTable tbody');
-//         tbody.innerHTML = '';
-
-//         if (lines.length > 0) {
-//             document.getElementById('baloWeightDisplay').textContent = lines[0];
-//         }
-
-//         lines.slice(1).forEach(line => {    //Đọc mảng đồ vật, bỏ qua dòng đầu baloweight
-//             const parts = line.split(',');
-//             // Trường hợp balo2 có cột số lượng
-//             if (currentPage === 'knapsack2.html' && parts.length === 4) {
-//                 const [name, weight, value, quantity] = parts;
-//                 const donGia = (parseFloat(value) / parseFloat(weight)).toFixed(2);
-//                 const row = `<tr><td>${name}</td><td>${weight}</td><td>${value}</td><td>${quantity}</td><td>${donGia}</td></tr>`;
-//                 tbody.innerHTML += row;
-//             } else if (parts.length === 3) {
-//             // Trường hợp balo1, balo3
-//                 const [name, weight, value] = parts;
-//                 const donGia = (parseFloat(value) / parseFloat(weight)).toFixed(2);
-//                 const row = `<tr><td>${name}</td><td>${weight}</td><td>${value}</td><td>${donGia}</td></tr>`;
-//                 tbody.innerHTML += row;
-//             }
-//         });
-//         // Hiển thị bảng sau khi tải xong
-//         document.getElementById('dataTable').style.display = 'table';
-//         document.getElementById('knapsackButton').style.display = 'block';
-//         document.getElementById('greedyResultTable').style.display = 'table';
-//     };
-    
-//     reader.readAsText(file);
-// }
-
-function handleFileUpload(event) {
-    const file = event.target.files[0];
+function upLoadFile(event) {
+    const file = event.target.files[0]; //Chọn file đầu tiên
     if (!file) return;
 
+    //Tạo API đọc file
     const reader = new FileReader();
     reader.onload = function(e) {
         const lines = e.target.result.split('\n').map(line => line.trim());

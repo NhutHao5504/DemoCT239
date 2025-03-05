@@ -22,8 +22,8 @@
             </div>
         </header>
         <aside>
-            <div class="function-box" onclick="toggleInputMethod('file')">Upload File</div>
-            <div class="function-box" onclick="toggleInputMethod('manual')">Nhập Thủ Công</div>
+            <div class="function-box" onclick="chuyenDoiNhapLieu('file')">Upload File</div>
+            <div class="function-box" onclick="chuyenDoiNhapLieu('manual')">Nhập Thủ Công</div>
             <div class="function-box" onclick="sortByUnitPrice()">Sắp Xếp</div>
             <div class="function-box" onclick="solveAllKnapsack('unbounded')">So Sánh BaLo1</div>
             <div class="function-box" onclick="solveAllKnapsack('bounded')">So Sánh BaLo2</div>
@@ -36,7 +36,7 @@
 
             <!-- Upload file -->
             <div id="fileInputSection" style="display: none;"> 
-                <input type="file" id="fileInput" accept=".txt" onchange="handleFileUpload(event)" style="display: none;">
+                <input type="file" id="fileInput" accept=".txt" onchange="upLoadFile(event)" style="display: none;">
             </div>
             <!-- Nhập thủ công -->
             <div id="manualInputSection" style="display:none;">
