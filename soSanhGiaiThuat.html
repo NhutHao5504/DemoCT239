@@ -12,9 +12,9 @@
         <header>
             <div class="nav">
                 <ul class="nav-list">
-                    <li class="nav-item"><button onclick="chuyenTrang('knapsack1.html')">KnapSack Problem 1 </button></li>
-                    <li class="nav-item"><button onclick="chuyenTrang('knapsack2.html')">KnapSack Problem 2 </button></li>
-                    <li class="nav-item"><button onclick="chuyenTrang('knapsack3.html')">KnapSack Problem 3 </button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack1.html')">BÀI TOÁN BALO 1</button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack2.html')">BÀI TOÁN BALO 2</button></li>
+                    <li class="nav-item"><button onclick="chuyenTrang('knapsack3.html')">BÀI TOÁN BALO 3</button></li>
                 </ul>
                 <ul class="nav-list">
                     <li class="nav-item"><button onclick="chuyenTrang('soSanhGiaiThuat.html')">So Sánh Giải Thuật</button></li>
@@ -33,13 +33,14 @@
         <main>
             <!-- Tiêu đề -->
             <h1>SO SÁNH GIẢI THUẬT</h1>
-
+            <img id="bannerImage" src="./Picture/Trangchu.png" alt="Balo2" 
+            style="display: block; margin: 10px auto; width: 50%; border-radius: 10px;">
             <!-- Upload file -->
             <div id="fileInputSection" style="display: none;"> 
                 <input type="file" id="fileInput" accept=".txt" onchange="upLoadFile(event)" style="display: none;">
             </div>
             <!-- Nhập thủ công -->
-            <div id="manualInputSection" style="display:none;">
+            <div id="manualInputSection" style="display:none; width: 60%; margin: 20px auto;">
                 <div class="inputInfor">
                     <label>Trọng lượng Ba lô: </label>
                     <input type="number" id="baloInput" min="0" style="flex: 1">
@@ -66,7 +67,7 @@
             
             <!-- Hiển thị bảng dữ liệu -->
             <div style="width: 60%; margin: 20px auto;">
-                <h3>TRỌNG LƯỢNG BA LÔ: <span id="baloWeightDisplay">0</span></h3>
+                <h3 id="baloWeightContainer" style="display: none;">TRỌNG LƯỢNG BA LÔ: <span id="baloWeightDisplay">0</span></h3>
                 <table id="dataTable" style="display: none;">
                     <thead>
                         <tr>

@@ -31,10 +31,10 @@ function sortByUnitPrice() {
             const name = cells[0].textContent;
             const weight = parseFloat(cells[1].textContent);
             const value = parseFloat(cells[2].textContent);
-            const unitPrice = value / weight;
+            const donGia = value / weight;
             const quantity = isKnapsack2 ? parseInt(cells[3].textContent) : null;
 
-            originalOrder.push({ name, weight, value, quantity, unitPrice });
+            originalOrder.push({ name, weight, value, quantity, donGia });
         });
     }
 
@@ -61,7 +61,7 @@ function sortByUnitPrice() {
             row += `<td>${item.quantity}</td>`;
         }
 
-        row += `<td>${item.unitPrice.toFixed(2)}</td>
+        row += `<td>${item.donGia.toFixed(2)}</td>
                 </tr>`;
 
         tbody.innerHTML += row;

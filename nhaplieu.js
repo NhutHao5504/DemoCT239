@@ -64,6 +64,7 @@ function upLoadFile(event) {
     };
 
     reader.readAsText(file);
+    showBaloWeight();
 }
 
 
@@ -89,6 +90,7 @@ function addItem() {
 
     if (baloWeight) {
         document.getElementById('baloWeightDisplay').textContent = baloWeight;
+        showBaloWeight();
     }
     //Khởi tạo dữ liệu cho bảng
     const tbody = document.querySelector('#dataTable tbody');

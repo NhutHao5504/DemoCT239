@@ -49,9 +49,9 @@ function QuyHoachDong(type) {
                         : Math.floor(V / items[k].TLDoVat);
 
                 for (let xk = 0; xk <= maxQuantity; xk++) {
-                    let remainingWeight = V - xk * items[k].TLDoVat;
-                    if (remainingWeight >= 0) {
-                        let newValue = F[k - 1][remainingWeight] + xk * items[k].giaTri;
+                    let TLConLai = V - xk * items[k].TLDoVat;
+                    if (TLConLai >= 0) {
+                        let newValue = F[k - 1][TLConLai] + xk * items[k].giaTri;
                         if (newValue > Fmax) {
                             Fmax = newValue;
                             Xmax = xk;
@@ -60,6 +60,7 @@ function QuyHoachDong(type) {
                 }
                 F[k][V] = Fmax;
                 X[k][V] = Xmax;
+                console.log(X);
             }
         }
     }
@@ -74,13 +75,13 @@ function QuyHoachDong(type) {
     }
 
     createTable();
-    let remainingWeight = traceTable();
+    let TLConLai = traceTable();
     let totalValue = F[n - 1][W];
 
-    displayDPResult(items, totalValue, remainingWeight);
+    displayDPResult(items, totalValue, TLConLai);
 }
 
-function displayDPResult(items, totalValue, remainingWeight) {
+function displayDPResult(items, totalValue, TLConLai) {
     document.getElementById('resultTableGreedy').style.display = 'none';
     document.getElementById('resultTableBandB').style.display = 'none';
 
@@ -97,8 +98,8 @@ function displayDPResult(items, totalValue, remainingWeight) {
         resultTableBody.appendChild(row);
     });
 
-    document.getElementById('totalValueDisplayDP').innerText = `Tổng giá trị tối ưu - DP: ${totalValue}`;
-    document.getElementById('remainingCapacityDisplayDP').innerText = `Trọng lượng còn lại của ba lô DP: ${remainingWeight}`;
+    document.getElementById('totalValueDisplayDP').innerText = `Tổng giá trị tối ưu - Quy hoạch động: ${totalValue}`;
+    document.getElementById('remainingCapacityDisplayDP').innerText = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
     document.getElementById('resultTableDP').style.display = 'block';
 }
 

@@ -33,7 +33,8 @@
         <main>
             <!-- Tiêu đề -->
             <h1>BÀI TOÁN CÁI BA LÔ 3</h1>
-
+            <img id="bannerImage" src="./Picture/Balo3.png" alt="Balo3" 
+            style="display: block; margin: 10px auto; width: 50%; border-radius: 10px;">
             <!-- Upload file -->
             <div id="fileInputSection" style="display: none;"> 
                 <input type="file" id="fileInput" accept=".txt" onchange="upLoadFile(event)" style="display: none;">
@@ -63,7 +64,7 @@
             <div class="centered-container">
                 <!-- Hiển thị bảng dữ liệu -->
                  <div>
-                    <h3>TRỌNG LƯỢNG BA LÔ: <span id="baloWeightDisplay">0</span></h3>
+                    <h3 id="baloWeightContainer" style="display: none;">TRỌNG LƯỢNG BA LÔ: <span id="baloWeightDisplay">0</span></h3>
                     <table id="dataTable" style="display: none;">
                         <thead>
                             <tr>

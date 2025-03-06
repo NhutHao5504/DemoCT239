@@ -1,11 +1,15 @@
 function saveResultsToFile() {
-    let resultText = "";
+    let resultText = "DỮ LIỆU BAN ĐẦU\n";
 
     // Hàm lấy dữ liệu từ bảng với căn chỉnh cột
     function getTableData(tableId) {
         let table = document.getElementById(tableId);
+        if (!table || table.style.display === "none") return "";
+
         let rows = table.querySelectorAll("tbody tr");
         let headers = table.querySelectorAll("thead th");
+
+        if (rows.length === 0) return ""; // Không có dữ liệu
 
         // Tìm độ dài tối đa của mỗi cột
         let colWidths = Array.from(headers).map((header, colIndex) => {
@@ -39,7 +43,15 @@ function saveResultsToFile() {
         return data;
     }
 
-    // Lấy dữ liệu từ từng bảng nếu nó hiển thị
+    // Lưu bảng dữ liệu đầu vào trước khi giải thuật
+    let initialData = getTableData("dataTable");
+    if (initialData.trim()) {
+        resultText += initialData + "\n\n";
+    } else {
+        resultText += "Không có dữ liệu đầu vào!\n\n";
+    }
+
+    // Lấy dữ liệu từ từng bảng kết quả nếu nó hiển thị
     if (document.getElementById("resultTableGreedy").style.display !== "none") {
         resultText += "KẾT QUẢ THUẬT TOÁN THAM ĂN\n";
         resultText += getTableData("greedyResultTable");
@@ -61,8 +73,8 @@ function saveResultsToFile() {
         resultText += "Dung lượng còn lại: " + document.getElementById("remainingCapacityDisplayDP").innerText + "\n\n";
     }
 
-    if (resultText === "") {
-        alert("Không có kết quả để lưu!");
+    if (resultText.trim() === "DỮ LIỆU BAN ĐẦU\nKhông có dữ liệu đầu vào!\n\n") {
+        alert("Không có dữ liệu nào để lưu!");
         return;
     }
 

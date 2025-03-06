@@ -111,8 +111,8 @@ function displayBandBResult(result, ItemsBanDau, TLbalo, TLConLai) {
     });
 
     // Hiển thị thông tin
-    document.getElementById('totalValueDisplayBandB').innerText = `Tổng giá trị tối ưu Nhánh Cận: ${result.maxValue}`;
-    document.getElementById('remainingCapacityDisplayBandB').innerText = `Trọng lượng còn lại của ba lô Nhánh Cận: ${TLConLai}`;
+    document.getElementById('totalValueDisplayBandB').innerText = `Tổng giá trị tối ưu - Nhánh Cận: ${result.maxValue}`;
+    document.getElementById('remainingCapacityDisplayBandB').innerText = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
 
     // Hiển thị bảng BandB
     document.getElementById('resultTableBandB').style.display = 'block';
