@@ -38,12 +38,12 @@ function NhanhCan(type) {
             }
         }
 
-        function BranchBound(index, TGT, CT, V, combination) {
+        function BranchBoundDeQuy(index, TGT, CT, V, combination) {
             //Điều kiện dừng
             if (V < 0) return;
-            if (TGT > GLNTT) capNhatGLNTT(TGT, combination);
             if (index >= items.length || V === 0) return;
 
+            if (TGT > GLNTT) capNhatGLNTT(TGT, combination);
             const currentItem = items[index];
             let limit = 0;
             if (type === "unbounded") {
@@ -65,14 +65,14 @@ function NhanhCan(type) {
                     if (index === items.length - 1 || newV === 0) {
                         capNhatGLNTT(newTGT, newCombination);
                     } else {
-                        BranchBound(index + 1, newTGT, newCT, newV, newCombination);
+                        BranchBoundDeQuy(index + 1, newTGT, newCT, newV, newCombination);
                     }
                 }
             }
         }
 
         taoNutGoc();
-        BranchBound(0, TGT, 0, V, {});
+        BranchBoundDeQuy(0, TGT, 0, V, {});
         return { maxValue: GLNTT, bestCombination };
     }
 
@@ -84,10 +84,10 @@ function NhanhCan(type) {
         }
     }
     let TLConLai = TLbalo - TLUsed;
-    displayBandBResult(result, ItemsBanDau, TLbalo, TLConLai);
+    displayBandBResult(result, ItemsBanDau, TLConLai);
 }
 
-function displayBandBResult(result, ItemsBanDau, TLbalo, TLConLai) {
+function displayBandBResult(result, ItemsBanDau, TLConLai) {
     // Ẩn các bảng khác
     document.getElementById('resultTableGreedy').style.display = 'none';
     document.getElementById('resultTableDP').style.display = 'none';

@@ -1,18 +1,14 @@
 function QuyHoachDong(type) {
     const TLbalo = document.getElementById('baloWeightDisplay').textContent;
     const tableRows = document.querySelectorAll('#dataTable tbody tr');
-    if (!TLbalo || isNaN(TLbalo) || parseInt(TLbalo) <= 0) {
-        alert("Vui lòng nhập trọng lượng ba lô hợp lệ (số nguyên dương).");
-        return;
-    }
- 
+
     let items = [];
     //Lấy dữ liệu từ bảng
     tableRows.forEach(row => {
-        const tenDoVat = row.cells[0].innerText;
-        const TLDoVat = parseInt(row.cells[1].innerText);
-        const giaTri = parseInt(row.cells[2].innerText);
-        const limit = row.cells[3] ? parseInt(row.cells[3].innerText) : Infinity;
+        const tenDoVat = row.cells[0].textContent;
+        const TLDoVat = parseInt(row.cells[1].textContent);
+        const giaTri = parseInt(row.cells[2].textContent);
+        const limit = row.cells[3] ? parseInt(row.cells[3].textContent) : Infinity;
         items.push({ tenDoVat, TLDoVat, giaTri, limit, selectedQuantity: 0 });
     });
 
@@ -30,6 +26,7 @@ function QuyHoachDong(type) {
     }
 
     function createTable() {
+        //Điền hàng đầu tiên của hai bảng
         for (let V = 0; V <= W; V++) {
             if (type === "01") {
                 X[0][V] = (V >= items[0].TLDoVat) ? 1 : 0;
@@ -38,7 +35,7 @@ function QuyHoachDong(type) {
             }
             F[0][V] = X[0][V] * items[0].giaTri;
         }
-
+        //Điền các hàng còn lại
         for (let k = 1; k < n; k++) {
             for (let V = 0; V <= W; V++) {
                 let Fmax = F[k - 1][V];
@@ -60,7 +57,6 @@ function QuyHoachDong(type) {
                 }
                 F[k][V] = Fmax;
                 X[k][V] = Xmax;
-                console.log(X);
             }
         }
     }
@@ -76,12 +72,12 @@ function QuyHoachDong(type) {
 
     createTable();
     let TLConLai = traceTable();
-    let totalValue = F[n - 1][W];
+    let TGT = F[n - 1][W];
 
-    displayDPResult(items, totalValue, TLConLai);
+    displayDPResult(items, TGT, TLConLai);
 }
 
-function displayDPResult(items, totalValue, TLConLai) {
+function displayDPResult(items, TGT, TLConLai) {
     document.getElementById('resultTableGreedy').style.display = 'none';
     document.getElementById('resultTableBandB').style.display = 'none';
 
@@ -98,65 +94,7 @@ function displayDPResult(items, totalValue, TLConLai) {
         resultTableBody.appendChild(row);
     });
 
-    document.getElementById('totalValueDisplayDP').innerText = `Tổng giá trị tối ưu - Quy hoạch động: ${totalValue}`;
+    document.getElementById('totalValueDisplayDP').innerText = `Tổng giá trị tối ưu - Quy hoạch động: ${TGT}`;
     document.getElementById('remainingCapacityDisplayDP').innerText = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
     document.getElementById('resultTableDP').style.display = 'block';
 }
-
-// function displayKnapsackResult(algorithm, originalItems, selectedItems, totalValue, remainingWeight) {
-//     // Ẩn tất cả các bảng trước khi hiển thị bảng kết quả của thuật toán được chọn
-//     document.getElementById('resultTableGreedy').style.display = 'none';
-//     document.getElementById('resultTableBandB').style.display = 'none';
-//     document.getElementById('resultTableDP').style.display = 'none';
-
-//     // Xác định bảng nào sẽ hiển thị
-//     let resultTableBody, totalValueDisplay, remainingCapacityDisplay;
-//     switch (algorithm) {
-//         case 'greedy':
-//             resultTableBody = document.querySelector('#greedyResultTable tbody');
-//             totalValueDisplay = document.getElementById('totalValueDisplayGreedy');
-//             remainingCapacityDisplay = document.getElementById('remainingCapacityDisplayGreedy');
-//             document.getElementById('resultTableGreedy').style.display = 'block';
-//             break;
-//         case 'bandb':
-//             resultTableBody = document.querySelector('#bandBResultTable tbody');
-//             totalValueDisplay = document.getElementById('totalValueDisplayBandB');
-//             remainingCapacityDisplay = document.getElementById('remainingCapacityDisplayBandB');
-//             document.getElementById('resultTableBandB').style.display = 'block';
-//             break;
-//         case 'dp':
-//             resultTableBody = document.querySelector('#dpResultTable tbody');
-//             totalValueDisplay = document.getElementById('totalValueDisplayDP');
-//             remainingCapacityDisplay = document.getElementById('remainingCapacityDisplayDP');
-//             document.getElementById('resultTableDP').style.display = 'block';
-//             break;
-//         default:
-//             console.error("Thuật toán không hợp lệ");
-//             return;
-//     }
-
-//     // Xóa dữ liệu cũ trong bảng
-//     resultTableBody.innerHTML = '';
-
-//     // Duyệt danh sách và hiển thị dữ liệu
-//     originalItems.forEach(item => {
-//         let selectedItem = selectedItems.find(i => i.name === item.name);
-//         let quantity = selectedItem ? selectedItem.quantity || selectedItem.selectedQuantity || 0 : 0;
-
-//         const row = document.createElement('tr');
-//         row.innerHTML = `<td>${item.name}</td>
-//                          <td>${item.weight}</td>
-//                          <td>${item.value}</td>
-//                          <td>${(item.value / item.weight).toFixed(2)}</td>
-//                          <td>${quantity}</td>`;
-//         resultTableBody.appendChild(row);
-//     });
-
-//     // Cập nhật giá trị tổng và trọng lượng còn lại
-//     totalValueDisplay.textContent = `Tổng giá trị tối ưu (${algorithm.toUpperCase()}): ${totalValue}`;
-//     remainingCapacityDisplay.textContent = `Trọng lượng còn lại của ba lô (${algorithm.toUpperCase()}): ${remainingWeight}`;
-// }
-
-// displayKnapsackResult('greedy', originalItems, selectedItems, totalValue, remainingCapacity);
-// displayKnapsackResult('bandb', items, result.bestCombination, result.maxValue, remainingWeight);
-// displayKnapsackResult('dp', items, selectedItems, totalValue, remainingWeight);

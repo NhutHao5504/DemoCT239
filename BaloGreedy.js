@@ -24,12 +24,9 @@ function ThamAn(type) {
     let TGT = 0;
     let selectedItems = [];
 
-    // Lựa chọn đồ vật theo chiến lược tham lam
     for (let item of items) {
         if (item.TLDoVat > TLConLai) continue; // TL > TLbalo => bỏ qua
-
         let SL = Math.min(Math.floor(TLConLai / item.TLDoVat), item.SLMax); // SL chọn
-
         // Lưu tt đồ vật vào selectedItems
         if (SL > 0) {
             selectedItems.push({
@@ -77,7 +74,5 @@ function displayGreedyResult(ItemsBanDau, selectedItems, TGT, TLConLai) {
     // Hiển thị thông tin
     document.getElementById('totalValueDisplayGreedy').textContent = `Tổng giá trị tối ưu - Tham ăn: ${TGT}`;
     document.getElementById('remainingCapacityDisplayGreedy').textContent = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
-
-    // Hiển thị bảng Greedy
     document.getElementById('resultTableGreedy').style.display = 'block';
 }
