@@ -1,7 +1,7 @@
 function saveResultsToFile() {
     let resultText = "DỮ LIỆU BAN ĐẦU\n";
 
-    // Hàm lấy dữ liệu từ bảng với căn chỉnh cột
+    // Lấy dữ liệu từ bảng và căn chỉnh dữ liệu
     function getTableData(tableId) {
         let table = document.getElementById(tableId);
         if (!table || table.style.display === "none") return "";
@@ -9,13 +9,13 @@ function saveResultsToFile() {
         let rows = table.querySelectorAll("tbody tr");
         let headers = table.querySelectorAll("thead th");
 
-        if (rows.length === 0) return ""; // Không có dữ liệu
+        if (rows.length === 0) return "";
 
         // Tìm độ dài tối đa của mỗi cột
-        let colWidths = Array.from(headers).map((header, colIndex) => {
+        let doDaiCot = Array.from(headers).map((header, soKyTuHeader) => {
             let maxLen = header.innerText.length;
             rows.forEach(row => {
-                let cell = row.querySelectorAll("td")[colIndex];
+                let cell = row.querySelectorAll("td")[soKyTuHeader];
                 if (cell) maxLen = Math.max(maxLen, cell.innerText.length);
             });
             return maxLen;
@@ -27,7 +27,7 @@ function saveResultsToFile() {
 
         // Lấy tiêu đề bảng (có căn chỉnh)
         headers.forEach((header, index) => {
-            data += formatCell(header.innerText, colWidths[index]) + "\t";
+            data += formatCell(header.innerText, doDaiCot[index]) + "\t";
         });
         data += "\n";
 
@@ -35,7 +35,7 @@ function saveResultsToFile() {
         rows.forEach(row => {
             let cells = row.querySelectorAll("td");
             cells.forEach((cell, index) => {
-                data += formatCell(cell.innerText, colWidths[index]) + "\t";
+                data += formatCell(cell.innerText, doDaiCot[index]) + "\t";
             });
             data += "\n";
         });
@@ -55,22 +55,22 @@ function saveResultsToFile() {
     if (document.getElementById("resultTableGreedy").style.display !== "none") {
         resultText += "KẾT QUẢ THUẬT TOÁN THAM ĂN\n";
         resultText += getTableData("greedyResultTable");
-        resultText += "Tổng giá trị: " + document.getElementById("totalValueDisplayGreedy").innerText + "\n";
-        resultText += "Dung lượng còn lại: " + document.getElementById("remainingCapacityDisplayGreedy").innerText + "\n\n";
+        resultText += document.getElementById("totalValueDisplayGreedy").innerText + "\n";
+        resultText += document.getElementById("remainingCapacityDisplayGreedy").innerText + "\n\n";
     }
 
     if (document.getElementById("resultTableBandB").style.display !== "none") {
         resultText += "KẾT QUẢ THUẬT TOÁN NHÁNH CẬN\n";
         resultText += getTableData("bandBResultTable");
-        resultText += "Tổng giá trị: " + document.getElementById("totalValueDisplayBandB").innerText + "\n";
-        resultText += "Dung lượng còn lại: " + document.getElementById("remainingCapacityDisplayBandB").innerText + "\n\n";
+        resultText += document.getElementById("totalValueDisplayBandB").innerText + "\n";
+        resultText += document.getElementById("remainingCapacityDisplayBandB").innerText + "\n\n";
     }
 
     if (document.getElementById("resultTableDP").style.display !== "none") {
         resultText += "KẾT QUẢ THUẬT TOÁN QUY HOẠCH ĐỘNG\n";
         resultText += getTableData("dpResultTable");
-        resultText += "Tổng giá trị: " + document.getElementById("totalValueDisplayDP").innerText + "\n";
-        resultText += "Dung lượng còn lại: " + document.getElementById("remainingCapacityDisplayDP").innerText + "\n\n";
+        resultText += document.getElementById("totalValueDisplayDP").innerText + "\n";
+        resultText += document.getElementById("remainingCapacityDisplayDP").innerText + "\n\n";
     }
 
     if (resultText.trim() === "DỮ LIỆU BAN ĐẦU\nKhông có dữ liệu đầu vào!\n\n") {

@@ -17,7 +17,7 @@ function NhanhCan(type) {
         items.push({ tenDoVat, TLDoVat, GT, donGia, limit });
     });
 
-    items = quickSort(items);
+    quickSort(items);
 
     function BranchBound(items, TLbalo) {
         let GLNTT = 0;
