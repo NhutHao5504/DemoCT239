@@ -73,6 +73,17 @@ function saveResultsToFile() {
         resultText += document.getElementById("remainingCapacityDisplayDP").innerText + "\n\n";
     }
 
+    let combinedTable = document.getElementById("resultTableCombined");
+    if (combinedTable && combinedTable.style.display !== "none") {  
+        console.log("Lưu bảng so sánh...");
+        let combinedData = getTableData("combinedResultTable");
+        console.log("Dữ liệu bảng so sánh:", combinedData);
+        resultText += "KẾT QUẢ SO SÁNH CÁC GIẢI THUẬT\n";  
+        resultText += combinedData;  
+        resultText += "\n";
+    }
+
+
     if (resultText.trim() === "DỮ LIỆU BAN ĐẦU\nKhông có dữ liệu đầu vào!\n\n") {
         alert("Không có dữ liệu nào để lưu!");
         return;

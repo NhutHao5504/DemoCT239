@@ -81,8 +81,6 @@
              </div>
 
             <div class="centered-container">
-                <!-- Hiển thị bảng kết quả -->
-                <!-- Bảng Greedy -->
                 <div id="resultTableGreedy" style="display: none;">
                     <h3>GIẢI THUẬT THAM ĂN</h3>
                     <table id="greedyResultTable">
@@ -101,7 +99,6 @@
                     <p id="remainingCapacityDisplayGreedy"></p>
                 </div>
 
-                <!-- Bảng Branch and Bound -->
                 <div id="resultTableBandB" style="display: none;">
                     <h3>GIẢI THUẬT NHÁNH CẬN</h3>
                     <table id="bandBResultTable">
@@ -120,7 +117,6 @@
                     <p id="remainingCapacityDisplayBandB"></p>
                 </div>
 
-                <!-- Bảng Dynamic Programming -->
                 <div id="resultTableDP" style="display: none;">
                     <h3>GIẢI THUẬT QUY HOẠCH ĐỘNG</h3>
                     <table id="dpResultTable">
@@ -139,6 +135,26 @@
                     <p id="remainingCapacityDisplayDP"></p>
                 </div>
             </div>
+            <div class="centered-container">
+                <div id="resultTableCombined" style="display: none;">
+                    <h3>KẾT QUẢ SO SÁNH CÁC GIẢI THUẬT</h3>
+                    <table id="combinedResultTable">
+                        <thead>
+                            <tr>
+                                <th>Tên Đồ Vật</th>
+                                <th>Trọng Lượng</th>
+                                <th>Giá Trị</th>
+                                <th>Đơn Giá</th>
+                                <th>Tham Ăn</th>
+                                <th>Nhánh Cận</th>
+                                <th>Quy Hoạch Động</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
     </main>
     <footer>
         <button onclick="window.location.href='index.html'">Quay lại</button>
@@ -154,3 +170,4 @@
     <script src="LuuKQ.js"></script>
 </body>
 </html>
+
