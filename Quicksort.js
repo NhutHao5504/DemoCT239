@@ -1,9 +1,11 @@
 function findPivot(arr, i, j) {
     let firstKey = arr[i].donGia;
-    let k = i + 1;
-    while (k <= j && arr[k].donGia === firstKey) k++;
-    if (k >= j) return -1;
-    return arr[k].donGia > firstKey ? k : i;
+    for (let k = i + 1; k <= j; k++) {
+        if (arr[k].donGia !== firstKey) {
+            return arr[k].donGia > firstKey ? k : i;
+        }
+    }
+    return i; // Trả về chính i nếu toàn bộ đoạn có cùng giá trị donGia
 }
 
 function partition(arr, i, j, pivot) {
@@ -12,7 +14,7 @@ function partition(arr, i, j, pivot) {
         while (L <= j && arr[L].donGia > pivot) L++;  
         while (R >= i && arr[R].donGia < pivot) R--;  
         if (L <= R) {
-            [arr[L], arr[R]] = [arr[R], arr[L]];
+            [arr[L], arr[R]] = [arr[R], arr[L]]; // Hoán đổi phần tử
             L++;
             R--;
         }
@@ -24,14 +26,14 @@ function quickSort(arr, i = 0, j = arr.length - 1) {
     if (i >= j) return;
 
     let pivotIndex = findPivot(arr, i, j);
-    if (pivotIndex === -1) return;
-
     let pivot = arr[pivotIndex].donGia;
+    
     let k = partition(arr, i, j, pivot);
 
-    if (k - 1 > i) quickSort(arr, i, k - 1);
+    if (i < k - 1) quickSort(arr, i, k - 1);
     if (k < j) quickSort(arr, k, j);
 }
+
 
 let duLieuGoc = []; 
 let isSorted = false;

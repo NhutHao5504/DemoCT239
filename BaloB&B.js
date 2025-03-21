@@ -1,20 +1,23 @@
 function NhanhCan(type) {
-    const TLbalo = document.getElementById('baloWeightDisplay').textContent;
+    const TLbalo = parseFloat(document.getElementById('baloWeightDisplay').textContent);
     const tableRows = document.querySelectorAll('#dataTable tbody tr');
     let items = [];
     let ItemsBanDau = [];
+    let hasSoLuongColumn = tableRows[0].cells.length > 4; // Kiểm tra nếu có cột "Số Lượng"
 
     // Lấy dữ liệu từ bảng
     tableRows.forEach(row => {
-        const tenDoVat = row.cells[0].textContent;
-        const TLDoVat = parseInt(row.cells[1].textContent);
-        const GT = parseInt(row.cells[2].textContent);
+        const cells = row.cells;
+        const tenDoVat = cells[0].textContent;
+        const TLDoVat = parseFloat(cells[1].textContent);
+        const GT = parseFloat(cells[2].textContent);
         const donGia = GT / TLDoVat;
-        const limit = parseInt(row.cells[3].textContent) || Infinity;
+        const soLuongNhap = hasSoLuongColumn ? parseInt(cells[3].textContent) : null;
+        const limit = type === "bounded" ? soLuongNhap : (type === "01" ? 1 : Infinity);
 
-        let item = { tenDoVat, TLDoVat, GT, donGia, limit };
+        let item = { tenDoVat, TLDoVat, GT, donGia, soLuongNhap, limit };
         ItemsBanDau.push(item);
-        items.push({ tenDoVat, TLDoVat, GT, donGia, limit });
+        items.push({ ...item });
     });
 
     quickSort(items);
@@ -23,7 +26,7 @@ function NhanhCan(type) {
         let GLNTT = 0;
         let bestCombination = {};
         let TGT = 0;
-        let V = TLbalo; // Trọng lượng còn lại
+        let V = TLbalo;
 
         function taoNutGoc() {
             TGT = 0;
@@ -39,20 +42,12 @@ function NhanhCan(type) {
         }
 
         function BranchBoundDeQuy(index, TGT, CT, V, combination) {
-            //Điều kiện dừng
             if (V < 0) return;
             if (index >= items.length || V === 0) return;
 
             if (TGT > GLNTT) capNhatGLNTT(TGT, combination);
             const currentItem = items[index];
-            let limit = 0;
-            if (type === "unbounded") {
-                limit = Math.floor(V / currentItem.TLDoVat); //Balo1
-            } else if (type === "bounded") {
-                limit = Math.min(currentItem.limit, Math.floor(V / currentItem.TLDoVat)); // Balo2
-            } else if (type === "01") {
-                limit = Math.min(1, Math.floor(V / currentItem.TLDoVat)); // Balo3
-            }
+            let limit = Math.min(currentItem.limit, Math.floor(V / currentItem.TLDoVat));
 
             for (let j = limit; j >= 0; j--) {
                 let newTGT = TGT + j * currentItem.GT;
@@ -60,8 +55,8 @@ function NhanhCan(type) {
                 let newCT = newTGT + (newV > 0 ? newV * (items[index + 1]?.donGia || 0) : 0);
 
                 if (newCT > GLNTT) {
-                    let newCombination = { ...combination };    //Copy phương án cũ
-                    newCombination[currentItem.tenDoVat] = j;   //Cập nhật số lượng đồ vật
+                    let newCombination = { ...combination };
+                    newCombination[currentItem.tenDoVat] = j;
                     if (index === items.length - 1 || newV === 0) {
                         capNhatGLNTT(newTGT, newCombination);
                     } else {
@@ -84,37 +79,46 @@ function NhanhCan(type) {
         }
     }
     let TLConLai = TLbalo - TLUsed;
-    displayBandBResult(result, ItemsBanDau, TLConLai);
+    displayBandBResult(result, ItemsBanDau, TLConLai, hasSoLuongColumn);
 }
 
-function displayBandBResult(result, ItemsBanDau, TLConLai) {
-    // Ẩn các bảng khác
+function displayBandBResult(result, ItemsBanDau, TLConLai, hasSoLuongColumn) {
     document.getElementById('resultTableGreedy').style.display = 'none';
     document.getElementById('resultTableDP').style.display = 'none';
 
-    // Xóa dữ liệu cũ
+    const resultTableHead = document.querySelector('#bandBResultTable thead tr');
     const resultTableBody = document.querySelector('#bandBResultTable tbody');
-    resultTableBody.innerHTML = '';
 
-    // Thêm dữ liệu mới
+    resultTableBody.innerHTML = '';
+    resultTableHead.innerHTML = '';
+
+    // Xây dựng header của bảng kết quả
+    let headerHTML = `<th>Tên Đồ Vật</th>
+                      <th>Trọng Lượng</th>
+                      <th>Giá Trị</th>
+                      <th>Đơn Giá</th>`;
+    if (hasSoLuongColumn) headerHTML += `<th>Số Lượng</th>`;
+    headerHTML += `<th>Phương Án</th>`;
+
+    resultTableHead.innerHTML = headerHTML;
+
+    // Xây dựng dữ liệu trong bảng kết quả
     ItemsBanDau.forEach(item => {
-        let quantity = result.bestCombination[item.tenDoVat] || 0;
+        let selectedItem = result.bestCombination[item.tenDoVat] || 0;
+
+        let rowHTML = `<td>${item.tenDoVat}</td>  
+                       <td>${item.TLDoVat}</td>  
+                       <td>${item.GT}</td>  
+                       <td>${item.donGia.toFixed(2)}</td>`;
+        if (hasSoLuongColumn && item.soLuongNhap !== null) rowHTML += `<td>${item.soLuongNhap}</td>`;
+        rowHTML += `<td>${selectedItem}</td>`;
 
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.tenDoVat}</td>  
-                         <td>${item.TLDoVat}</td>  
-                         <td>${item.GT}</td>  
-                         <td>${item.donGia.toFixed(2)}</td>  
-                         <td>${quantity}</td>`;
-
+        row.innerHTML = rowHTML;
         resultTableBody.appendChild(row);
     });
 
-    // Hiển thị thông tin
-    document.getElementById('totalValueDisplayBandB').innerText = `Tổng giá trị tối ưu - Nhánh Cận: ${result.maxValue}`;
-    document.getElementById('remainingCapacityDisplayBandB').innerText = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
-
-    // Hiển thị bảng BandB
+    document.getElementById('totalValueDisplayBandB').textContent = `Tổng giá trị tối ưu - Nhánh Cận: ${result.maxValue}`;
+    document.getElementById('remainingCapacityDisplayBandB').textContent = `Trọng lượng còn lại của ba lô: ${TLConLai}`;
     document.getElementById('resultTableBandB').style.display = 'block';
 }
- 

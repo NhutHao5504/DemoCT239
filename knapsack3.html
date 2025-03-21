@@ -18,6 +18,7 @@
                 </ul>
                 <ul class="nav-list">
                     <li class="nav-item"><button onclick="chuyenTrang('soSanhGiaiThuat.html')">SO SÁNH GIẢI THUẬT</button></li>
+                    <li class="nav-item"><button onclick="saveResultsToFile()">LƯU KẾT QUẢ</button></li>
                 </ul>
             </div>
         </header>
@@ -28,11 +29,12 @@
             <div class="function-box" onclick="ThamAn('01')">Gready Algorithm</div>
             <div class="function-box" onclick="NhanhCan('01')">Branch and Bound</div>
             <div class="function-box" onclick="QuyHoachDong('01')">Dynamic Programming</div>
-            <div class="function-box" onclick="saveResultsToFile()">Lưu Kết Quả</div>
         </aside>
         <main>
             <!-- Tiêu đề -->
             <h1>BÀI TOÁN CÁI BA LÔ 3</h1>
+            <div id="errorDisplay" style="color: red; font-weight: bold;"></div>
+            
             <img id="bannerImage" src="./Picture/Balo3.png" alt="Balo3" 
             style="display: block; margin: 10px auto; width: 50%; border-radius: 10px;">
             <!-- Upload file -->

@@ -3,13 +3,19 @@ function QuyHoachDong(type) {
     const tableRows = document.querySelectorAll('#dataTable tbody tr');
 
     let items = [];
-    //Lấy dữ liệu từ bảng
+    let ItemsBanDau = [];
+    let hasSoLuongColumn = tableRows[0].cells.length > 4;
+
+    // Lấy dữ liệu từ bảng
     tableRows.forEach(row => {
         const tenDoVat = row.cells[0].textContent;
         const TLDoVat = parseInt(row.cells[1].textContent);
         const giaTri = parseInt(row.cells[2].textContent);
-        const limit = row.cells[3] ? parseInt(row.cells[3].textContent) : Infinity;
-        items.push({ tenDoVat, TLDoVat, giaTri, limit, selectedQuantity: 0 });
+        const soLuongNhap = hasSoLuongColumn ? parseInt(row.cells[3].textContent) : null;
+        const limit = hasSoLuongColumn ? soLuongNhap : Infinity;
+        let item = { tenDoVat, TLDoVat, giaTri, limit, selectedQuantity: 0, soLuongNhap };
+        ItemsBanDau.push(item);
+        items.push({ ...item });
     });
 
     let n = items.length;
@@ -26,7 +32,6 @@ function QuyHoachDong(type) {
     }
 
     function createTable() {
-        //Điền hàng đầu tiên của hai bảng
         for (let V = 0; V <= W; V++) {
             if (type === "01") {
                 X[0][V] = (V >= items[0].TLDoVat) ? 1 : 0;
@@ -35,7 +40,7 @@ function QuyHoachDong(type) {
             }
             F[0][V] = X[0][V] * items[0].giaTri;
         }
-        //Điền các hàng còn lại
+
         for (let k = 1; k < n; k++) {
             for (let V = 0; V <= W; V++) {
                 let Fmax = F[k - 1][V];
@@ -74,23 +79,38 @@ function QuyHoachDong(type) {
     let TLConLai = traceTable();
     let TGT = F[n - 1][W];
 
-    displayDPResult(items, TGT, TLConLai);
+    displayDPResult(ItemsBanDau, items, TGT, TLConLai, hasSoLuongColumn);
 }
 
-function displayDPResult(items, TGT, TLConLai) {
+function displayDPResult(ItemsBanDau, items, TGT, TLConLai, hasSoLuongColumn) {
     document.getElementById('resultTableGreedy').style.display = 'none';
     document.getElementById('resultTableBandB').style.display = 'none';
 
+    const resultTableHead = document.querySelector('#dpResultTable thead tr');
     const resultTableBody = document.querySelector('#dpResultTable tbody');
+
     resultTableBody.innerHTML = '';
+    resultTableHead.innerHTML = '';
+
+    let headerHTML = `<th>Tên Đồ Vật</th>
+                      <th>Trọng Lượng</th>
+                      <th>Giá Trị</th>
+                      <th>Đơn Giá</th>`;
+    if (hasSoLuongColumn) headerHTML += `<th>Số Lượng</th>`;
+    headerHTML += `<th>Phương Án</th>`;
+
+    resultTableHead.innerHTML = headerHTML;
 
     items.forEach(item => {
+        let rowHTML = `<td>${item.tenDoVat}</td>  
+                       <td>${item.TLDoVat}</td>  
+                       <td>${item.giaTri}</td>  
+                       <td>${(item.giaTri / item.TLDoVat).toFixed(2)}</td>`;
+        if (hasSoLuongColumn && item.soLuongNhap !== null) rowHTML += `<td>${item.soLuongNhap}</td>`;
+        rowHTML += `<td>${item.selectedQuantity}</td>`;
+
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.tenDoVat}</td>  
-                         <td>${item.TLDoVat}</td>  
-                         <td>${item.giaTri}</td>  
-                         <td>${(item.giaTri / item.TLDoVat).toFixed(2)}</td>  
-                         <td>${item.selectedQuantity}</td>`;
+        row.innerHTML = rowHTML;
         resultTableBody.appendChild(row);
     });
 

@@ -18,6 +18,7 @@
                 </ul>
                 <ul class="nav-list">
                     <li class="nav-item"><button onclick="chuyenTrang('soSanhGiaiThuat.html')">SO SÁNH GIẢI THUẬT</button></li>
+                    <li class="nav-item"><button onclick="saveResultsToFile()">LƯU KẾT QUẢ</button></li>
                 </ul>
             </div>
         </header>
@@ -28,11 +29,12 @@
             <div class="function-box" onclick="ThamAn('unbounded')">Gready Algorithm</div>
             <div class="function-box" onclick="NhanhCan('unbounded')">Branch and Bound</div>
             <div class="function-box" onclick="QuyHoachDong('unbounded')">Dynamic Programming</div>
-            <div class="function-box" onclick="saveResultsToFile()">Lưu Kết Quả</div>
         </aside>
         <main>
             <!-- Tiêu đề -->
             <h1>BÀI TOÁN CÁI BA LÔ 1</h1>
+            <div id="errorDisplay" style="color: red; font-weight: bold;"></div>
+
             <img id="bannerImage" src="./Picture/Balo1.png" alt="Balo1" 
             style="display: block; margin: 10px auto; width: 50%; border-radius: 10px;">
 
@@ -61,7 +63,7 @@
                 <button onclick="addItem()">Thêm</button>
                 <button onclick="hideManualInput()">Hoàn thành</button>
             </div>
-
+            
             <div class="centered-container">
                 <!-- Hiển thị bảng dữ liệu -->
                  <div>
@@ -141,9 +143,6 @@
         <button onclick="window.location.href='index.html'">Quay lại</button>
     </footer>
 </div>
-
-    
-
 <script src="Quicksort.js"></script>
 <script src="nhaplieu.js"></script>
 <script src="BaloGreedy.js"></script>

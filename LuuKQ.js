@@ -11,11 +11,11 @@ function saveResultsToFile() {
 
         if (rows.length === 0) return "";
 
-        // Tìm độ dài tối đa của mỗi cột
-        let doDaiCot = Array.from(headers).map((header, soKyTuHeader) => {
+        // Tìm độ dài tối đa của mỗi cột trong header
+        let doDaiCot = Array.from(headers).map((header, soThuTuCot) => {
             let maxLen = header.innerText.length;
             rows.forEach(row => {
-                let cell = row.querySelectorAll("td")[soKyTuHeader];
+                let cell = row.querySelectorAll("td")[soThuTuCot];
                 if (cell) maxLen = Math.max(maxLen, cell.innerText.length);
             });
             return maxLen;
@@ -24,7 +24,6 @@ function saveResultsToFile() {
         let formatCell = (text, width) => text.padEnd(width, " "); // Căn trái
 
         let data = "";
-
         // Lấy tiêu đề bảng (có căn chỉnh)
         headers.forEach((header, index) => {
             data += formatCell(header.innerText, doDaiCot[index]) + "\t";
@@ -39,7 +38,6 @@ function saveResultsToFile() {
             });
             data += "\n";
         });
-
         return data;
     }
 
@@ -75,24 +73,18 @@ function saveResultsToFile() {
 
     let combinedTable = document.getElementById("resultTableCombined");
     if (combinedTable && combinedTable.style.display !== "none") {  
-        console.log("Lưu bảng so sánh...");
+//        console.log("Lưu bảng so sánh...");
         let combinedData = getTableData("combinedResultTable");
-        console.log("Dữ liệu bảng so sánh:", combinedData);
+//        console.log("Dữ liệu bảng so sánh:", combinedData);
         resultText += "KẾT QUẢ SO SÁNH CÁC GIẢI THUẬT\n";  
         resultText += combinedData;  
         resultText += "\n";
     }
 
-
-    if (resultText.trim() === "DỮ LIỆU BAN ĐẦU\nKhông có dữ liệu đầu vào!\n\n") {
-        alert("Không có dữ liệu nào để lưu!");
-        return;
-    }
-
     // Tạo file và tải xuống
-    let blob = new Blob([resultText], { type: "text/plain" });
+    let blob = new Blob([resultText], { type: "text/plain" }); //Tạo đối tượng Blob lưu dữ liệu văn bản
     let link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "ket_qua_balo.txt";
+    link.href = URL.createObjectURL(blob);  //Tạo đường dẫn URL cho Blob
+    link.download = "Ket_Qua.txt";
     link.click();
 }

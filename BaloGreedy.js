@@ -3,6 +3,7 @@ function ThamAn(type) {
     const tableRows = document.querySelectorAll('#dataTable tbody tr');
     let items = [];
     let ItemsBanDau = [];
+    let hasSoLuongColumn = tableRows[0].cells.length > 4;
 
     // Lấy dữ liệu từ bảng
     tableRows.forEach(row => {
@@ -11,11 +12,12 @@ function ThamAn(type) {
         const TLDoVat = parseFloat(cells[1].textContent);
         const giaTri = parseFloat(cells[2].textContent);
         const donGia = giaTri / TLDoVat;
-        let SLMax = type === 'bounded' ? parseInt(cells[3].textContent) : (type === '01' ? 1 : Infinity);
+        const soLuongNhap = hasSoLuongColumn ? parseInt(cells[3].textContent) : null;
+        let SLMax = type === 'bounded' ? soLuongNhap : (type === '01' ? 1 : Infinity);
         
-        let item = { tenDoVat, TLDoVat, giaTri, donGia, SLMax };
+        let item = { tenDoVat, TLDoVat, giaTri, donGia, SLMax, soLuongNhap };
         ItemsBanDau.push(item);
-        items.push({ tenDoVat, TLDoVat, giaTri, donGia, SLMax });
+        items.push({ ...item });
     });
 
     quickSort(items);
@@ -33,6 +35,7 @@ function ThamAn(type) {
                 TLDoVat: item.TLDoVat,
                 giaTri: item.giaTri,
                 donGia: item.donGia.toFixed(2),
+                soLuongNhap: item.soLuongNhap,
                 SL: SL
             });
 
@@ -42,27 +45,43 @@ function ThamAn(type) {
 
         if (type === '01' && TLConLai <= 0) break;
     }   
-    displayGreedyResult(ItemsBanDau, selectedItems, TGT, TLConLai);
+    displayGreedyResult(ItemsBanDau, selectedItems, TGT, TLConLai, hasSoLuongColumn);
 }
-
-function displayGreedyResult(ItemsBanDau, selectedItems, TGT, TLConLai) {
+ 
+function displayGreedyResult(ItemsBanDau, selectedItems, TGT, TLConLai, hasSoLuongColumn) {
     document.getElementById('resultTableBandB').style.display = 'none';
     document.getElementById('resultTableDP').style.display = 'none';
 
+    const resultTableHead = document.querySelector('#greedyResultTable thead tr');
     const resultTableBody = document.querySelector('#greedyResultTable tbody');
-    resultTableBody.innerHTML = '';
 
+    resultTableBody.innerHTML = '';
+    resultTableHead.innerHTML = '';
+
+    // Xây dựng header của bảng kết quả
+    let headerHTML = `<th>Tên Đồ Vật</th>
+                      <th>Trọng Lượng</th>
+                      <th>Giá Trị</th>
+                      <th>Đơn Giá</th>`;
+    if (hasSoLuongColumn) headerHTML += `<th>Số Lượng</th>`;
+    headerHTML += `<th>Phương Án</th>`;
+
+    resultTableHead.innerHTML = headerHTML;
+
+    // Xây dựng dữ liệu trong bảng kết quả
     ItemsBanDau.forEach(item => {
         let selectedItem = selectedItems.find(i => i.tenDoVat === item.tenDoVat);
         let SL = selectedItem ? selectedItem.SL : 0;
 
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.tenDoVat}</td>  
-                         <td>${item.TLDoVat}</td>  
-                         <td>${item.giaTri}</td>  
-                         <td>${item.donGia.toFixed(2)}</td>  
-                         <td>${SL}</td>`;
+        let rowHTML = `<td>${item.tenDoVat}</td>  
+                       <td>${item.TLDoVat}</td>  
+                       <td>${item.giaTri}</td>  
+                       <td>${item.donGia.toFixed(2)}</td>`;
+        if (hasSoLuongColumn && item.soLuongNhap !== null) rowHTML += `<td>${item.soLuongNhap}</td>`;
+        rowHTML += `<td>${SL}</td>`;
 
+        const row = document.createElement('tr');
+        row.innerHTML = rowHTML;
         resultTableBody.appendChild(row);
     });
 
