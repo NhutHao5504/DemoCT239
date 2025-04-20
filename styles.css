@@ -14,6 +14,7 @@ body {
     grid-template-areas: 'header' 'sidebar' 'main' 'footer';
     height: 100vh;
 }
+
 @media (min-width: 480px) {
     .layout {
         display: grid;
@@ -22,14 +23,17 @@ body {
         grid-template-areas: 'header header header' 'sidebar main main' 'footer footer footer';
     }
 }
+
 header {
     grid-area: header;
     background: #334eac;
 }
+
 footer {
     grid-area: footer;
     background: #334eac;
 }
+
 aside {
     grid-area: sidebar;
     background: #7096D1;
@@ -41,7 +45,7 @@ aside {
 }
 
 .function-box {
-    width: 140px;  /* Kích thước cố định */
+    width: 140px;
     padding: 10px;
     margin: 8px 0;
     font-size: 14px;
@@ -62,8 +66,9 @@ aside {
     background-color: #b0c8ff;
     transform: scale(0.98);
 }
+
 .function-box:last-child {
-    border-bottom: none; /* Bỏ đường dưới mục cuối cùng */
+    border-bottom: none;
 }
 
 main {
@@ -97,21 +102,21 @@ button {
     margin: 10px;
     padding: 10px 15px;
     font-size: 13px;
-    background-color: #5068d8; /* Màu sáng hơn header một chút */
+    background-color: #5068d8;
     color: white;
-    border: 2px solid white; /* Viền cùng màu với header */
+    border: 2px solid white;
     cursor: pointer;
     border-radius: 8px;
     transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
-    background-color: #00DEB4; /* Màu tối hơn header khi hover */
+    background-color: #00DEB4;
     transform: scale(1.05);
 }
 
 button:active {
-    background-color: #1d2b6e; /* Màu tối hơn khi click */
+    background-color: #1d2b6e;
     transform: scale(0.98);
 }
 
@@ -123,7 +128,6 @@ h3 {
     margin: 0px;
 }
 
-
 input[type="file"], input[type="text"], input[type="number"] {
     margin: 10px;
     padding: 8px;
@@ -132,30 +136,29 @@ input[type="file"], input[type="text"], input[type="number"] {
 
 .centered-container {
     display: flex;
-    justify-content: center; /* Căn giữa hai bảng */
-    align-items: start; /* Giữ hai bảng căn theo đỉnh */
-    gap: 20px; /* Khoảng cách giữa hai bảng */
+    justify-content: center;
+    align-items: start;
+    gap: 20px;
     margin-top: 20px;
 }
 
 .centered-container > div {
     padding: 10px;
     min-width: 300px;
-    flex: 1; /* Đảm bảo hai bảng có cùng kích thước */
+    flex: 1;
     text-align: center;
 }
 
-/* Căn chỉnh bảng */
 table {
-    width: 100%; /* Đảm bảo bảng mở rộng theo div */
-    margin: 20px 0; /* Căn lề dọc */
+    width: 100%;
+    margin: 20px 0;
     border-collapse: collapse;
     background: white;
 }
 
 th, td {
     border: 1px solid black;
-    padding: 10px; /* Chỉnh padding để dễ nhìn */
+    padding: 10px;
     text-align: center;
 }
 
@@ -169,11 +172,11 @@ th {
 }
 
 #manualInputSection {
-    flex-direction: column; /* Xếp các phần tử theo hàng dọc */
-    align-items: flex-start; /* Căn trái */
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.inputInfor{
+.inputInfor {
     display: flex;
     align-items: center;
 }
@@ -192,31 +195,32 @@ th {
     max-width: 1200px;
     margin: auto;
 }
+
 .content div {
     flex: 1;
 }
+
 .content img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px; /* Bo tròn góc ảnh */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 
 .container {
     display: flex;
-    justify-content: space-between; /* Căn đều khoảng cách giữa các box */
-    gap: 20px; /* Khoảng cách giữa các box */
+    justify-content: space-between;
+    gap: 20px;
     padding: 20px;
     max-width: 1200px;
     margin: auto;
 }
 
 .box {
-    flex: 1; /* Mỗi box chiếm diện tích bằng nhau */
+    flex: 1;
     padding: 15px;
-    border-radius: 10px; /* Bo góc mềm mại */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     text-align: justify;
 }
 
@@ -229,9 +233,10 @@ th {
     line-height: 1.6;
     color: #333;
 }
+
 .sidebar-logo {
-    width: 150px; /* Điều chỉnh kích thước logo */
-    height: auto; /* Giữ tỷ lệ gốc */
-    display: block; /* Giúp hình ảnh không bị ảnh hưởng bởi text-align */
-    margin: 0 auto 20px auto; /* Căn giữa logo và tạo khoảng cách với nội dung dưới */
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
 }

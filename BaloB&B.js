@@ -27,7 +27,7 @@ function NhanhCan(type) {
         let bestCombination = {};
         let TGT = 0;
         let V = TLbalo;
-
+ 
         function taoNutGoc() {
             TGT = 0;
             V = TLbalo;

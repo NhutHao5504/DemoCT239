@@ -13,7 +13,7 @@ function upLoadFile(event) {
     if (!file) return;
     const errorDisplay = document.getElementById('errorDisplay');
     errorDisplay.innerHTML = ''; // Xóa thông báo lỗi cũ
-
+ 
     // Kiểm tra định dạng file
     const validExtensions = ['text/plain'];
     if (!validExtensions.includes(file.type)) {
@@ -123,74 +123,83 @@ function upLoadFile(event) {
 
 //Thêm danh sách đồ vật thủ công
 const currentPage = window.location.pathname.split('/').pop();
+let showQuantityColumn = false; // Biến kiểm soát hiển thị cột số lượng
+
 function updateTableHeader() {
     const tableHead = document.querySelector('#dataTable thead tr');
-    if (currentPage === 'knapsack2.html') {
+    if ((currentPage === 'knapsack2.html' || currentPage === 'soSanhGiaiThuat.html') && showQuantityColumn) {
         tableHead.innerHTML = `<th>Tên Đồ Vật</th>
-                                <th>Trọng Lượng</th>
-                                <th>Giá Trị</th>
-                                <th>Số Lượng</th>
-                                <th>Đơn Giá</th>`;
+                               <th>Trọng Lượng</th>
+                               <th>Giá Trị</th>
+                               <th>Số Lượng</th>
+                               <th>Đơn Giá</th>`;
     } else {
         tableHead.innerHTML = `<th>Tên Đồ Vật</th>
-                                <th>Trọng Lượng</th>
-                                <th>Giá Trị</th>
-                                <th>Đơn Giá</th>`;
+                               <th>Trọng Lượng</th>
+                               <th>Giá Trị</th>
+                               <th>Đơn Giá</th>`;
     }
 }
-updateTableHeader();
+
+updateTableHeader(); // Khởi tạo header ban đầu
+
 function addItem() {
     const ten = document.getElementById('nameInput').value;
     const trongLuong = document.getElementById('weightInput').value;
     const giaTri = document.getElementById('valueInput').value;
+    const soLuong = document.getElementById('quantityInput')?.value;
     const TLBalo = document.getElementById('baloInput').value;
 
     if (TLBalo) {
         document.getElementById('baloWeightDisplay').textContent = TLBalo;
         showBaloWeight();
     }
-    //Khởi tạo dữ liệu cho bảng
+
     const tbody = document.querySelector('#dataTable tbody');
     let row = '';
 
     if (ten && trongLuong && giaTri) {
         const donGia = (parseFloat(giaTri) / parseFloat(trongLuong)).toFixed(2);
 
-        if (currentPage === 'knapsack2.html') {
-            const soLuong = document.getElementById('quantityInput').value;
-            if (soLuong) {
-                row = `<tr>
-                            <td>${ten}</td>
-                            <td>${trongLuong}</td>
-                            <td>${giaTri}</td>
-                            <td>${soLuong}</td>
-                            <td>${donGia}</td>
-                        </tr>`;
-            }
+        if ((currentPage === 'knapsack2.html' || currentPage === 'soSanhGiaiThuat.html') && soLuong) {
+            showQuantityColumn = true; // Đánh dấu là đã nhập số lượng
+            updateTableHeader(); // Cập nhật lại tiêu đề bảng có thêm "Số lượng"
+            row = `<tr>
+                      <td>${ten}</td>
+                      <td>${trongLuong}</td>
+                      <td>${giaTri}</td>
+                      <td>${soLuong}</td>
+                      <td>${donGia}</td>
+                  </tr>`;
         } else {
             row = `<tr>
-                        <td>${ten}</td>
-                        <td>${trongLuong}</td>
-                        <td>${giaTri}</td>
-                        <td>${donGia}</td>
-                    </tr>`;
+                      <td>${ten}</td>
+                      <td>${trongLuong}</td>
+                      <td>${giaTri}</td>
+                      <td>${donGia}</td>
+                  </tr>`;
         }
     }
-    //Thêm hàng dữ liệu vào bảng và reset lại ô input
+
     if (row) {
         tbody.innerHTML += row;
         document.getElementById('nameInput').value = '';
         document.getElementById('weightInput').value = '';
         document.getElementById('valueInput').value = '';
-        if (currentPage === 'knapsack2.html') {
+        if (document.getElementById('quantityInput')) {
             document.getElementById('quantityInput').value = '';
         }
     }
+
     document.getElementById('dataTable').style.display = 'table';
     document.getElementById('knapsackButton').style.display = 'block';
     document.getElementById('greedyResultTable').style.display = 'table';
 }
+
 //Ẩn bảng nhập khi hoàn thành
 function hideManualInput() {
     document.getElementById('manualInputSection').style.display = 'none';
 }
+
+
+

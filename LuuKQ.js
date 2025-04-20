@@ -72,12 +72,12 @@ function saveResultsToFile() {
     }
 
     let combinedTable = document.getElementById("resultTableCombined");
-    if (combinedTable && combinedTable.style.display !== "none") {  
+    if (combinedTable && combinedTable.style.display !== "none") {
 //        console.log("Lưu bảng so sánh...");
         let combinedData = getTableData("combinedResultTable");
 //        console.log("Dữ liệu bảng so sánh:", combinedData);
-        resultText += "KẾT QUẢ SO SÁNH CÁC GIẢI THUẬT\n";  
-        resultText += combinedData;  
+        resultText += "KẾT QUẢ SO SÁNH CÁC GIẢI THUẬT\n";
+        resultText += combinedData;
         resultText += "\n";
     }
 

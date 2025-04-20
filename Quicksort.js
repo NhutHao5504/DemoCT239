@@ -5,7 +5,7 @@ function findPivot(arr, i, j) {
             return arr[k].donGia > firstKey ? k : i;
         }
     }
-    return i; // Trả về chính i nếu toàn bộ đoạn có cùng giá trị donGia
+    return i; // Nếu cùng đơn giá, trả về chỉ số đầu tiên
 }
 
 function partition(arr, i, j, pivot) {
